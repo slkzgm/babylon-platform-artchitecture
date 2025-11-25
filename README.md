@@ -59,7 +59,7 @@ packages/
     utils/            # Generic helpers/types/Zod
     ui/               # Design primitives
 docs/
-  v2-architecture-overview.md  # Architecture proposal and boundaries
+  project-architecture-overview.md  # Architecture proposal and boundaries
 ```
 
 ## Conventions
@@ -69,6 +69,6 @@ docs/
 - Tests: unit in `core-*`, integration in `apps/server` for routes; place next to code (`*.test.ts` / `*.spec.ts`).
 
 ## References
-- Architecture: `docs/v2-architecture-overview.md`
+- Architecture: `docs/project-architecture-overview.md`
 - App roles: `apps/server/README.md`, `apps/web/README.md`
 - Package responsibilities: `packages/*/README.md`

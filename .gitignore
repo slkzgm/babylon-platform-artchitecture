@@ -49,5 +49,5 @@ coverage
 tmp
 temp
 
-# Docs (local architecture / notes)
-docs/
+# Docs: keep our hand-written docs tracked, ignore generated vendor docs
+docs/vendor/

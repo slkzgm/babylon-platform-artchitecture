@@ -39,7 +39,7 @@ packages/
     infra/          # DB/Redis/logger/config/resilience
     utils/          # Generic helpers/types/Zod
     ui/             # Design primitives
-docs/v2-architecture-overview.md
+docs/project-architecture-overview.md
 ```
 
 ## Working rules
