@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-type:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Lint/format (Biome)
+        run: bun run check
+
+      - name: Type check
+        run: bun run check-types
+
+      # Uncomment when build validation is desired
+      # - name: Build
+      #   env:
+      #     DATABASE_URL: postgres://user:pass@localhost:5432/dbname
+      #   run: bun run build

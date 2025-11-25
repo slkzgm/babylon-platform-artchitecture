@@ -1,74 +1,74 @@
-# babylon
+# Babylon V2 (scaffold)
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines Next.js, Elysia, and more.
+Modular monolith scaffold: Bun + Elysia (Eden client) for the API, Next.js for the web UI, Drizzle/Postgres for data, Turborepo for the monorepo. Core business logic will live in `packages/core-*`; apps only do wiring/UI.
 
-## Features
+## Stack
+- Runtime/tooling: Bun (use Bun commands/APIs), Turborepo, Biome, Husky
+- Backend: Elysia (`apps/server`) + Eden client for typed HTTP
+- Frontend: Next.js 16 (`apps/web`)
+- Data: PostgreSQL (Neon) + Drizzle ORM
+- Styling: Tailwind v4 + shadcn/ui primitives
 
-- **TypeScript** - For type safety and improved developer experience
-- **Next.js** - Full-stack React framework
-- **TailwindCSS** - Utility-first CSS for rapid UI development
-- **shadcn/ui** - Reusable UI components
-- **Elysia** - Type-safe, high-performance framework
-- **Bun** - Runtime environment
-- **Drizzle** - TypeScript-first ORM
-- **PostgreSQL** - Database engine
-- **Biome** - Linting and formatting
-- **Husky** - Git hooks for code quality
-- **Turborepo** - Optimized monorepo build system
-
-## Getting Started
-
-First, install the dependencies:
-
+## Quick start
 ```bash
 bun install
-```
-## Database Setup
 
-This project uses PostgreSQL with Drizzle ORM.
+# DB (set DATABASE_URL in root .env)
+bun run db:generate   # drizzle-kit generate
+bun run db:migrate    # drizzle-kit migrate
 
-1. Make sure you have a PostgreSQL database set up.
-2. Update your `apps/server/.env` file with your PostgreSQL connection details.
-
-3. Apply the schema to your database:
-```bash
-bun run db:push
-```
-
-
-Then, run the development server:
-
-```bash
-bun run dev
+# Dev
+bun run dev         # server:3000, web:3001
+# or separately
+bun run dev:server
+bun run dev:web
 ```
 
-Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
-The API is running at [http://localhost:3000](http://localhost:3000).
+## Environment
+- Use a single root `.env` (see `.env.example`) for all apps/packages.
+- Document new vars in `.env.example` with comments, defaults, and optional/required notes.
+- Avoid scattering per-app env files unless you have an explicit override need.
 
+## Scripts
+- `bun run dev` / `dev:server` / `dev:web` — start apps
+- `bun run build` — build all
+- `bun run check-types` — type check via turbo
+- `bun run check` — Biome format/lint (pre-commit)
+- `bun run db:generate` / `db:migrate` — Drizzle (see `packages/db/drizzle.config.ts`)
 
-
-
-
-
-
-## Project Structure
-
+## Structure (current)
 ```
-babylon/
-├── apps/
-│   ├── web/         # Frontend application (Next.js)
-│   └── server/      # Backend API (Elysia)
-├── packages/
-│   ├── api/         # API layer / business logic
+apps/
+  server/  # Elysia API host (no business logic)
+  web/     # Next.js UI (consumes API)
+  daemon/  # Background loops/workers (game/markets/NPCs)
+  agents/  # Agent runners/integrations
+packages/
+  api/                # Elysia routes (imported by server) and API types
+  db/                 # Drizzle schema/client
+  core/               # Domain logic (framework-free)
+    identity/         # Auth/accounts/onboarding/registry
+    social/           # Posts/comments/chats/notifications/trending
+    markets/          # Markets/pools/perps/wallet accounting
+    game/             # Game world/NPCs/simulation
+    reputation/       # Reputation/points/rewards/leaderboards
+    agents/           # Agent abstractions/strategies
+    contracts/        # Contract bindings
+  shared/             # Cross-cutting
+    infra/            # Drizzle/Redis/logger/config/resilience
+    utils/            # Generic helpers/types/Zod
+    ui/               # Design primitives
+docs/
+  v2-architecture-overview.md  # Architecture proposal and boundaries
 ```
 
-## Available Scripts
+## Conventions
+- Apps never contain domain logic; implement in `core-*`, expose via `packages/api`, consume in `apps/web`.
+- Core packages are framework-free (no Next/React/Elysia).
+- 2-space indent, PascalCase components, camelCase hooks/vars, kebab-case packages.
+- Tests: unit in `core-*`, integration in `apps/server` for routes; place next to code (`*.test.ts` / `*.spec.ts`).
 
-- `bun run dev`: Start all applications in development mode
-- `bun run build`: Build all applications
-- `bun run dev:web`: Start only the web application
-- `bun run dev:server`: Start only the server
-- `bun run check-types`: Check TypeScript types across all apps
-- `bun run db:push`: Push schema changes to database
-- `bun run db:studio`: Open database studio UI
-- `bun run check`: Run Biome formatting and linting
+## References
+- Architecture: `docs/v2-architecture-overview.md`
+- App roles: `apps/server/README.md`, `apps/web/README.md`
+- Package responsibilities: `packages/*/README.md`

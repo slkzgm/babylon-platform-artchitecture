@@ -1,0 +1,27 @@
+{
+  "name": "@babylon/api",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": { "default": "./src/index.ts" }
+  },
+  "devDependencies": {
+    "@babylon/config": "workspace:*"
+  },
+  "dependencies": {
+    "elysia": "^1.3.21",
+    "zod": "^4.1.12",
+    "@babylon/shared-infra": "workspace:*",
+    "@babylon/shared-utils": "workspace:*",
+    "@babylon/core-identity": "workspace:*",
+    "@babylon/core-social": "workspace:*",
+    "@babylon/core-markets": "workspace:*",
+    "@babylon/core-game": "workspace:*",
+    "@babylon/core-reputation": "workspace:*",
+    "@babylon/core-agents": "workspace:*",
+    "@babylon/core-contracts": "workspace:*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
