@@ -9,4 +9,4 @@ Drizzle schema and database tooling.
 
 ## Notes
 - No domain logic; only schema and low-level DB access.
-- Schema changes should be coordinated with the owning domain packages.\n*** End Patch ***!
+- Schema changes should be coordinated with the owning domain packages.
