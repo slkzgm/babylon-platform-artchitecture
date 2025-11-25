@@ -35,6 +35,7 @@ bun run dev:web
 - `bun run check-types` — type check via turbo
 - `bun run check` — Biome format/lint (pre-commit)
 - `bun run db:generate` / `db:migrate` — Drizzle (see `packages/db/drizzle.config.ts`)
+- `bun run docs:generate` — pull external vendor docs into `docs/vendors/*`
 
 ## Structure (current)
 ```
@@ -60,6 +61,7 @@ packages/
     ui/               # Design primitives
 docs/
   project-architecture-overview.md  # Architecture proposal and boundaries
+  vendors/                          # Local copies of vendor docs (via docs:generate)
 ```
 
 ## Conventions

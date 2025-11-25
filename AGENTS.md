@@ -19,6 +19,7 @@
 - Types: `bun run check-types`
 - DB: `bun run db:generate` / `db:migrate` (Drizzle)
 - Lint/format: `bun run check` (Biome; used in pre-commit)
+- Docs: `bun run docs:generate` (populate `docs/vendors/*` from upstream docs)
 - Runtime is Bun; prefer Bun tooling/commands (and Bun APIs like `Bun.file` when appropriate).
 
 ## Style & Conventions
@@ -27,6 +28,7 @@
 - Keep core packages free of Next/React/Elysia.
 - Aim for clean, efficient, DRY code that follows best practices; prefer clarity and maintainability with good DX and performance in mind.
 - Env: use a single root `.env` (see `.env.example`); keep it updated with comments/defaults/optional vs required. Avoid per-app env files unless explicitly needed.
+- When using a library/framework (Elysia, Drizzle, Bun, Privy, etc.), first consult the local docs under `docs/vendors/{vendor}` if available; if not, suggest running `bun run docs:generate` rather than hallucinating behavior or APIs.
 
 ## Testing
 - Place tests next to code (`*.test.ts` / `*.spec.ts`).
