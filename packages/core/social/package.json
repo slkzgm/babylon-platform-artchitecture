@@ -1,18 +1,20 @@
 {
-  "name": "@babylon/core-social",
-  "version": "0.0.0",
-  "type": "module",
-  "exports": {
-    ".": { "default": "./src/index.ts" }
-  },
-  "devDependencies": {
-    "@babylon/config": "workspace:*"
-  },
-  "dependencies": {
-    "@babylon/shared-infra": "workspace:*",
-    "@babylon/shared-utils": "workspace:*"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  }
+	"name": "@babylon/core-social",
+	"version": "0.0.0",
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		}
+	},
+	"devDependencies": {
+		"@babylon/config": "workspace:*"
+	},
+	"dependencies": {
+		"@babylon/shared-infra": "workspace:*",
+		"@babylon/shared-utils": "workspace:*"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
 }

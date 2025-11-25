@@ -1,5 +1,5 @@
-import { defineConfig } from "drizzle-kit";
 import dotenv from "dotenv";
+import { defineConfig } from "drizzle-kit";
 
 // Load env from root .env so we keep a single source of truth.
 dotenv.config({

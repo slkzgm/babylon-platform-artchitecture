@@ -1,21 +1,21 @@
 {
-  "name": "agents",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "bun --watch src/index.ts",
-    "start": "bun src/index.ts"
-  },
-  "devDependencies": {
-    "@babylon/config": "workspace:*",
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "@babylon/shared-infra": "workspace:*",
-    "@babylon/core-agents": "workspace:*",
-    "@babylon/core-identity": "workspace:*",
-    "@babylon/core-markets": "workspace:*",
-    "@babylon/core-social": "workspace:*"
-  }
+	"name": "agents",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "bun --watch src/index.ts",
+		"start": "bun src/index.ts"
+	},
+	"devDependencies": {
+		"@babylon/config": "workspace:*",
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@babylon/shared-infra": "workspace:*",
+		"@babylon/core-agents": "workspace:*",
+		"@babylon/core-identity": "workspace:*",
+		"@babylon/core-markets": "workspace:*",
+		"@babylon/core-social": "workspace:*"
+	}
 }

@@ -1,19 +1,21 @@
 {
-  "name": "@babylon/shared-infra",
-  "version": "0.0.0",
-  "type": "module",
-  "exports": {
-    ".": { "default": "./src/index.ts" }
-  },
-  "devDependencies": {
-    "@babylon/config": "workspace:*"
-  },
-  "dependencies": {
-    "@babylon/db": "workspace:*",
-    "@babylon/shared-utils": "workspace:*",
-    "zod": "^4.1.12"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  }
+	"name": "@babylon/shared-infra",
+	"version": "0.0.0",
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		}
+	},
+	"devDependencies": {
+		"@babylon/config": "workspace:*"
+	},
+	"dependencies": {
+		"@babylon/db": "workspace:*",
+		"@babylon/shared-utils": "workspace:*",
+		"zod": "^4.1.12"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
 }

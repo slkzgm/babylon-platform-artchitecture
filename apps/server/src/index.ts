@@ -1,8 +1,8 @@
 import "dotenv/config";
-import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
+import { Elysia } from "elysia";
 
-const app = new Elysia()
+new Elysia()
 	.use(
 		cors({
 			origin: process.env.CORS_ORIGIN || "",
