@@ -13,7 +13,7 @@
 	"dependencies": {
 		"@babylon/db": "workspace:*",
 		"@babylon/shared-utils": "workspace:*",
-		"zod": "^4.1.12"
+		"zod": "catalog:"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

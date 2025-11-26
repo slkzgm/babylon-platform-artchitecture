@@ -8,8 +8,10 @@ import {
 	updateProfile,
 	updateSettings,
 } from "@babylon/core-identity";
+import { UnauthorizedError } from "@babylon/shared-infra";
 import { Elysia, t } from "elysia";
 import { privyAuth, requireUser } from "../middleware/auth";
+import { extractLinkedData, getPrivyUser } from "../services/privy";
 
 // ============================================================================
 // Validation Schemas
@@ -19,7 +21,6 @@ const createUserSchema = t.Object({
 	username: t.String({ minLength: 3, maxLength: 50 }),
 	displayName: t.Optional(t.String({ maxLength: 100 })),
 	avatarUrl: t.Optional(t.String()),
-	walletAddress: t.Optional(t.String({ pattern: "^0x[a-fA-F0-9]{40}$" })),
 });
 
 const updateProfileSchema = t.Object({
@@ -141,17 +142,47 @@ const onboardingRoutes = new Elysia({ name: "identity-onboarding" })
 	 * Create a new user (onboarding)
 	 * POST /api/identity/users
 	 *
-	 * Requires valid Privy token but user may not exist yet in our DB
+	 * Requires valid Privy token but user may not exist yet in our DB.
+	 * Also requires identity token (privy-id-token header) to fetch linked accounts
+	 * and automatically populate wallet, email, and social accounts.
 	 */
 	.post(
 		"/users",
-		async ({ privyUserId, body }) => {
+		async ({ privyUserId, body, headers }) => {
+			// Get identity token to fetch user's linked accounts (no rate limit)
+			const idToken = headers["privy-id-token"];
+			if (!idToken) {
+				throw new UnauthorizedError("Identity token required");
+			}
+
+			// Fetch Privy user and extract all linked data
+			const privyUser = await getPrivyUser(idToken);
+
+			// Security: ensure identity token matches access token (prevent confused deputy)
+			if (privyUser.id !== privyUserId) {
+				throw new UnauthorizedError(
+					"Identity token does not match authenticated user",
+				);
+			}
+
+			const linkedData = extractLinkedData(privyUser);
+
 			const user = await createUser({
 				privyUserId,
 				username: body.username,
-				displayName: body.displayName,
-				avatarUrl: body.avatarUrl,
-				walletAddress: body.walletAddress,
+				// Use provided values or fall back to Privy linked data
+				displayName:
+					body.displayName || linkedData.suggestedDisplayName || undefined,
+				avatarUrl: body.avatarUrl || linkedData.suggestedAvatarUrl || undefined,
+				// Auto-populated from Privy
+				walletAddress: linkedData.walletAddress ?? undefined,
+				email: linkedData.email ?? undefined,
+				twitterId: linkedData.twitterId ?? undefined,
+				twitterUsername: linkedData.twitterUsername ?? undefined,
+				farcasterFid: linkedData.farcasterFid ?? undefined,
+				farcasterUsername: linkedData.farcasterUsername ?? undefined,
+				discordId: linkedData.discordId ?? undefined,
+				discordUsername: linkedData.discordUsername ?? undefined,
 			});
 
 			return {
@@ -159,6 +190,7 @@ const onboardingRoutes = new Elysia({ name: "identity-onboarding" })
 				username: user.username,
 				displayName: user.displayName,
 				avatarUrl: user.avatarUrl,
+				walletAddress: user.walletAddress,
 				createdAt: user.createdAt,
 			};
 		},
@@ -188,6 +220,7 @@ const authenticatedRoutes = new Elysia({ name: "identity-auth" })
 			bio: fullUser.bio,
 			email: fullUser.email,
 			walletAddress: fullUser.walletAddress,
+			// Social accounts (IDs + usernames for API compatibility)
 			farcasterFid: fullUser.farcasterFid,
 			farcasterUsername: fullUser.farcasterUsername,
 			twitterId: fullUser.twitterId,

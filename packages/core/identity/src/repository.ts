@@ -116,6 +116,13 @@ export async function createUser(input: CreateUserInput): Promise<User> {
 			displayName: input.displayName,
 			avatarUrl: input.avatarUrl,
 			walletAddress: input.walletAddress,
+			// Social accounts
+			twitterId: input.twitterId,
+			twitterUsername: input.twitterUsername,
+			farcasterFid: input.farcasterFid,
+			farcasterUsername: input.farcasterUsername,
+			discordId: input.discordId,
+			discordUsername: input.discordUsername,
 		})
 		.returning();
 

@@ -1,6 +1,6 @@
 // apps/web/src/lib/api.ts
 // NOTE: API client for communicating with the backend.
-import { getAccessToken } from "@privy-io/react-auth";
+import { getAccessToken, getIdentityToken } from "@privy-io/react-auth";
 
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000";
 
@@ -31,6 +31,8 @@ interface RequestOptions {
 	method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 	body?: unknown;
 	auth?: boolean;
+	/** Include identity token for endpoints that need user data (no rate limit) */
+	withIdentityToken?: boolean;
 }
 
 /**
@@ -40,7 +42,12 @@ export async function api<T>(
 	endpoint: string,
 	options: RequestOptions = {},
 ): Promise<T> {
-	const { method = "GET", body, auth = true } = options;
+	const {
+		method = "GET",
+		body,
+		auth = true,
+		withIdentityToken = false,
+	} = options;
 
 	const headers: Record<string, string> = {
 		"Content-Type": "application/json",
@@ -51,6 +58,14 @@ export async function api<T>(
 		const token = await getAccessToken();
 		if (token) {
 			headers.Authorization = `Bearer ${token}`;
+		}
+	}
+
+	// Add identity token header if needed (for endpoints that fetch user data)
+	if (withIdentityToken) {
+		const idToken = await getIdentityToken();
+		if (idToken) {
+			headers["privy-id-token"] = idToken;
 		}
 	}
 
@@ -120,6 +135,7 @@ export interface UserSettings {
 }
 
 export interface UserWithSettings extends User {
+	// Social accounts (IDs + usernames for API compatibility)
 	farcasterFid: string | null;
 	farcasterUsername: string | null;
 	twitterId: string | null;
@@ -153,20 +169,25 @@ export const identity = {
 
 	/**
 	 * Create a new user (onboarding)
+	 * Wallet address is automatically extracted from Privy linked accounts
 	 */
 	createUser: (data: {
 		username: string;
 		displayName?: string;
 		avatarUrl?: string;
-		walletAddress?: string;
 	}) =>
 		api<{
 			id: string;
 			username: string;
 			displayName: string | null;
 			avatarUrl: string | null;
+			walletAddress: string | null;
 			createdAt: string;
-		}>("/api/identity/users", { method: "POST", body: data }),
+		}>("/api/identity/users", {
+			method: "POST",
+			body: data,
+			withIdentityToken: true,
+		}),
 
 	/**
 	 * Get current user profile

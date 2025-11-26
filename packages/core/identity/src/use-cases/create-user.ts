@@ -42,6 +42,13 @@ export interface CreateUserParams {
 	displayName?: string;
 	avatarUrl?: string;
 	walletAddress?: string;
+	// Social accounts (auto-populated from Privy linked accounts)
+	twitterId?: string;
+	twitterUsername?: string;
+	farcasterFid?: string;
+	farcasterUsername?: string;
+	discordId?: string;
+	discordUsername?: string;
 }
 
 /**
@@ -94,6 +101,13 @@ export async function createUser(params: CreateUserParams): Promise<User> {
 		displayName: params.displayName ?? username,
 		avatarUrl: params.avatarUrl,
 		walletAddress: params.walletAddress,
+		// Social accounts
+		twitterId: params.twitterId,
+		twitterUsername: params.twitterUsername,
+		farcasterFid: params.farcasterFid,
+		farcasterUsername: params.farcasterUsername,
+		discordId: params.discordId,
+		discordUsername: params.discordUsername,
 	};
 
 	try {

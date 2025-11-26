@@ -3,7 +3,7 @@
 import { PrivyProvider as BasePrivyProvider } from "@privy-io/react-auth";
 import { SmartWalletsProvider } from "@privy-io/react-auth/smart-wallets";
 
-const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
+const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID as string;
 
 if (!PRIVY_APP_ID) {
 	throw new Error(

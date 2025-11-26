@@ -14,7 +14,7 @@
 		"@babylon/db": "workspace:*",
 		"@babylon/shared-infra": "workspace:*",
 		"@babylon/shared-utils": "workspace:*",
-		"drizzle-orm": "^0.44.2"
+		"drizzle-orm": "catalog:"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

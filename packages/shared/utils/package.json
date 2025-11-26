@@ -11,7 +11,7 @@
 		"@babylon/config": "workspace:*"
 	},
 	"dependencies": {
-		"zod": "^4.1.12"
+		"zod": "catalog:"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

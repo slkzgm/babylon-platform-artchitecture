@@ -26,6 +26,13 @@ export interface CreateUserInput {
 	displayName?: string;
 	avatarUrl?: string;
 	walletAddress?: string;
+	// Social accounts (auto-populated from Privy linked accounts)
+	twitterId?: string;
+	twitterUsername?: string;
+	farcasterFid?: string;
+	farcasterUsername?: string;
+	discordId?: string;
+	discordUsername?: string;
 }
 
 export interface UpdateProfileInput {
