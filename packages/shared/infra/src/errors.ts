@@ -1,5 +1,4 @@
-// packages/shared/infra/src/errors.ts
-import type { JsonValue } from "@babylon/shared-utils";
+import type { JsonObject, JsonValue } from "@babylon/shared-utils";
 
 // ============================================================================
 // Error Codes
@@ -71,13 +70,13 @@ export class BabylonError extends Error {
 		Error.captureStackTrace?.(this, this.constructor);
 	}
 
-	toJSON(): JsonValue {
+	toJSON(): JsonObject {
 		return {
 			name: this.name,
 			code: this.code,
 			message: this.message,
 			statusCode: this.statusCode,
-			context: this.context ?? null,
+			context: (this.context as JsonObject) ?? null,
 			timestamp: this.timestamp.toISOString(),
 		};
 	}

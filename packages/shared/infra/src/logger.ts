@@ -1,7 +1,6 @@
-// packages/shared/infra/src/logger.ts
 // NOTE: logger reads LOG_LEVEL directly from process.env.
 // This is intentional and matches the project's current bootstrapping model.
-import type { JsonValue } from "@babylon/shared-utils";
+import type { JsonObject, JsonValue } from "@babylon/shared-utils";
 
 // ============================================================================
 // Types
@@ -73,11 +72,14 @@ function serializeData(data: LogData | undefined): JsonValue | undefined {
 	if (data === undefined) return undefined;
 
 	if (data instanceof Error) {
-		return {
+		const errorObj: JsonObject = {
 			name: data.name,
 			message: data.message,
-			stack: data.stack,
 		};
+		if (data.stack) {
+			errorObj.stack = data.stack;
+		}
+		return errorObj;
 	}
 
 	// Parse and re-stringify to ensure it's valid JSON
