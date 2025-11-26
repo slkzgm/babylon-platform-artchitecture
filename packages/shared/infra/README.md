@@ -2,5 +2,14 @@
 
 Cross-cutting infrastructure: Drizzle, Redis, logger, config, resilience.
 
-- No domain logic; consumed by core domain packages.
+## Responsibilities
+
+- No business logic
+- No domain-specific rules
+- Only infrastructure-level utilities
+- Safe to import from any package
+
+## Notes
+
 - Wraps primitives from @babylon/db and exposes higher-level infra helpers.
+- Consumed by core domain packages.

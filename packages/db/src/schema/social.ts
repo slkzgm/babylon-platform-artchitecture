@@ -1,3 +1,4 @@
+// packages/db/src/schema/social.ts
 import { relations, sql } from "drizzle-orm";
 import {
 	check,
@@ -71,14 +72,17 @@ export const posts = pgTable(
 
 		// Threading: comments are posts with reply_to_post_id
 		// Self-references with FK constraints, onDelete: "set null" to preserve content
+		// NOTE: using `as any` to break circular type dependency in Drizzle (expected).
 		replyToPostId: uuid("reply_to_post_id").references((): any => posts.id, {
 			onDelete: "set null",
 		}),
 		// Quotes: posts that quote another post with added commentary
+		// NOTE: using `as any` to break circular type dependency in Drizzle (expected).
 		quotePostId: uuid("quote_post_id").references((): any => posts.id, {
 			onDelete: "set null",
 		}),
 		// Reposts: pure reshares without commentary
+		// NOTE: using `as any` to break circular type dependency in Drizzle (expected).
 		originalPostId: uuid("original_post_id").references((): any => posts.id, {
 			onDelete: "set null",
 		}),

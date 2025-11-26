@@ -1,2 +1,10 @@
-// Shared infrastructure primitives (DB, cache, logger, config, resilience) will live here.
-export const placeholderInfra = true;
+// packages/shared/infra/src/index.ts
+
+// Configuration
+export * from "./config";
+// Database
+export * from "./database";
+// Errors
+export * from "./errors";
+// Logging
+export * from "./logger";
